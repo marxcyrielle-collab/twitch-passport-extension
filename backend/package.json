@@ -1,14 +1,12 @@
 {
   "name": "passport-ebs",
   "type": "module",
-"scripts": {
-  "dev": "tsx watch src/server.ts",
-  "start": "node --import tsx src/server.ts",
-  "render-build": "prisma generate --schema=prisma/schema.prisma && prisma db push --schema=prisma/schema.prisma",
-  "db:migrate": "prisma migrate dev",
-  "db:studio": "prisma studio"
-}
-}
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node --import tsx src/server.ts",
+    "render-build": "prisma generate --schema=prisma/schema.prisma && prisma db push --schema=prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",
