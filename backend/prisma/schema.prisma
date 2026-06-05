@@ -58,3 +58,15 @@ model Reward {
 
   season         Season? @relation(fields: [seasonId], references: [id])
 }
+model ChannelSettings {
+  id            String   @id @default(cuid())
+  channelId     String   @unique
+  coverColor    String   @default("#4b145f")
+  pageColor     String   @default("#f7e4b5")
+  textColor     String   @default("#1b0b00")
+  buttonColor   String   @default("#6b1b75")
+  borderColor   String   @default("#a06a2c")
+  activeStampId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
