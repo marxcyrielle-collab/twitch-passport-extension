@@ -1,0 +1,11 @@
+{
+  "name": "twitch-passport-extension",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w frontend\" \"npm run dev -w backend\"",
+    "build": "npm run build -w frontend",
+    "db:migrate": "npm run db:migrate -w backend"
+  },
+  "workspaces": ["frontend", "backend"],
+  "devDependencies": {"concurrently":"^9.1.2"}
+}
