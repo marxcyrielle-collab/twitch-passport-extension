@@ -11,7 +11,10 @@ function App(){
   useEffect(()=>onTwitchAuth(async a=>{setAuth(a); await load(a)}),[]);
   return <div className="wrap"><main className="passport"><section className="cover"><h1>PASSEPORT LIVE</h1><div>{data?.season.name || 'Chargement...'}</div></section><section className="page">
     {error && <p>{error}</p>}<div className="row"><button className="btn" onClick={checkin}>Tamponner ma visite du jour</button><strong>{data?.count || 0} tampons</strong></div>
-    <h2>Mes tampons</h2><div className="grid">{data?.stamps.length ? data.stamps.map(s=><div className="stamp" key={s.id}><img src={s.imageUrl}/><b>{s.title}</b><small>{new Date(s.earnedAt).toLocaleDateString()}</small></div>) : <p>Aucun tampon pour le moment.</p>}</div>
+    <h2>Mes tampons</h2><div className="grid">{data?.stamps.length ? data.stamps.map(s=><div className="stamp" key={s.id}><img
+  src={s.imageUrl?.startsWith('/stamps/') ? `.${s.imageUrl}` : s.imageUrl}
+  alt={s.title}
+/><b>{s.title}</b><small>{new Date(s.earnedAt).toLocaleDateString()}</small></div>) : <p>Aucun tampon pour le moment.</p>}</div>
     <h2>Récompenses</h2><div className="rewards">{data?.rewards.map(r=><div className={`reward ${r.unlocked?'unlocked':''}`} key={r.id}><b>{r.unlocked?'✅':'🔒'} {r.title}</b><p>{r.description}</p><small>{r.requiredStamps} tampons requis</small></div>)}</div>
   </section></main></div>
 }
