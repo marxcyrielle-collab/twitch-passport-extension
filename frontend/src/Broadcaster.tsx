@@ -104,13 +104,20 @@ function Broadcaster(){
           </button>
         </div>
 
-        <h2>Tampons existants</h2>
+         <h2>Tampons existants</h2>
         <table>
           <tbody>
             {data?.stamps?.map((s:any)=>
               <tr key={s.id}>
                 <td>{s.isActive?'🟢':'⚪'}</td>
-                <td>{s.title}</td>
+                <td>
+                  <img
+                    src={s.imageUrl?.startsWith('/stamps/') ? `.${s.imageUrl}` : s.imageUrl}
+                    alt={s.title}
+                    style={{width:42,height:42,objectFit:'contain',verticalAlign:'middle',marginRight:8}}
+                  />
+                  {s.title}
+                </td>
                 <td>{s.kind}</td>
                 <td>
                   <button className="btn" style={{background:theme.buttonColor}} onClick={()=>post('/api/admin/active-stamp',{stampId:s.id})}>
@@ -121,7 +128,6 @@ function Broadcaster(){
             )}
           </tbody>
         </table>
-
         <h2>Récompense</h2>
         <div className="form">
           <input value={reward.title} onChange={e=>setReward({...reward,title:e.target.value})}/>
