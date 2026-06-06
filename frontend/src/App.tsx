@@ -11,6 +11,10 @@ type Passport = {
   rewards: any[];
 };
 
+function imgPath(url: string) {
+  return url?.startsWith('/stamps/') ? `.${url}` : url;
+}
+
 function App() {
   const [auth, setAuth] = useState<TwitchAuth>();
   const [data, setData] = useState<Passport>();
@@ -37,6 +41,7 @@ function App() {
   }), []);
 
   const theme = data?.settings || {};
+  const christmasCount = data?.stamps?.filter((s:any) => s.imageUrl?.includes('/christmas/')).length || 0;
 
   return (
     <div className="wrap" style={{ color: theme.textColor }}>
@@ -56,15 +61,31 @@ function App() {
             <strong>{data?.count || 0} tampons</strong>
           </div>
 
-          <h2>Mes tampons</h2>
+          <h2>Collection 🎄 Noël 2026</h2>
+          <div className="collection-progress">
+            {christmasCount} / 16 tampons débloqués
+          </div>
 
+          <div className="collection-grid">
+            {Array.from({ length: 16 }).map((_, i) => {
+              const s = data?.stamps?.find((st:any) =>
+                st.imageUrl?.includes(`/christmas/daily-christmas-${i + 1}.png`)
+              );
+
+              return (
+                <div key={i} className={`collection-slot ${s ? 'unlocked' : ''}`}>
+                  {s && <img src={imgPath(s.imageUrl)} alt={s.title} />}
+                  <small>{s ? s.title : `Noël ${i + 1}`}</small>
+                </div>
+              );
+            })}
+          </div>
+
+          <h2>Mes tampons</h2>
           <div className="grid">
             {data?.stamps.length ? data.stamps.map(s =>
               <div className="stamp" key={s.id} style={{ borderColor: theme.borderColor }}>
-                <img
-                  src={s.imageUrl?.startsWith('/stamps/') ? `.${s.imageUrl}` : s.imageUrl}
-                  alt={s.title}
-                />
+                <img src={imgPath(s.imageUrl)} alt={s.title} />
                 <b>{s.title}</b>
                 <small>{new Date(s.earnedAt).toLocaleDateString()}</small>
               </div>
@@ -72,7 +93,6 @@ function App() {
           </div>
 
           <h2>Récompenses</h2>
-
           <div className="rewards">
             {data?.rewards.map(r =>
               <div className={`reward ${r.unlocked ? 'unlocked' : ''}`} key={r.id}>
